@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Book Package</title>
     <link rel="stylesheet" href="/css/auth.css">
 </head>
+
 <body>
 
-<div class="box">
+    <div class="box">
 
-    <h2>Book Your Trip</h2>
+        <h2>Book Your Trip</h2>
 
-    <input id="name" placeholder="Name" readonly>
-    <input id="email" placeholder="Email" readonly>
-    <input id="phone" placeholder="Phone" readonly>
+        <input id="name" placeholder="Name" readonly>
+        <input id="email" placeholder="Email" readonly>
+        <input id="phone" placeholder="Phone" readonly>
 
-    <input id="package" placeholder="Package">
-    <input id="destination" placeholder="Destination">
+        <input id="package" placeholder="Package">
+        <input id="destination" placeholder="Destination">
+        <label for="date">Travel Date:</label>
+        <input id="date" type="date">
+        <input id="persons" type="number" placeholder="Persons">
 
-    <input id="date" type="date">
-    <input id="persons" type="number" placeholder="Persons">
+        <textarea id="message" placeholder="Message (optional)"></textarea>
 
-    <textarea id="message" placeholder="Message (optional)"></textarea>
+        <button onclick="book()">Confirm Booking</button>
 
-    <button onclick="book()">Confirm Booking</button>
+        <p id="msg"></p>
 
-    <p id="msg"></p>
+    </div>
 
-</div>
+    <script>
+        // CHECK LOGIN
+        const user = JSON.parse(localStorage.getItem("user"));
 
-<script>
-// CHECK LOGIN
-const user = JSON.parse(localStorage.getItem("user"));
+        if (!user) {
+            alert("Please login first");
+            window.location.href = "login.html";
+        }
 
-if(!user){
-    alert("Please login first");
-    window.location.href = "login.html";
-}
+        // AUTO FILL USER DATA
+        document.getElementById("name").value = user.name;
+        document.getElementById("email").value = user.email;
+        document.getElementById("phone").value = user.phone;
 
-// AUTO FILL USER DATA
-document.getElementById("name").value = user.name;
-document.getElementById("email").value = user.email;
-document.getElementById("phone").value = user.phone;
+        function openBooking(pkg, dest) {
+            document.getElementById("package").value = pkg;
+            document.getElementById("destination").value = dest;
+        }
 
-function openBooking(pkg, dest){
-    document.getElementById("package").value = pkg;
-    document.getElementById("destination").value = dest;
-}
+        // BOOK FUNCTION
+        async function book() {
 
-// BOOK FUNCTION
-async function book(){
+            const data = {
+                user_id: user.id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
 
-    const data = {
-        user_id: user.id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
+                package_name: document.getElementById("package").value,
+                destination: document.getElementById("destination").value,
 
-        package_name: document.getElementById("package").value,
-        destination: document.getElementById("destination").value,
+                travel_date: document.getElementById("date").value,
+                persons: document.getElementById("persons").value,
+                message: document.getElementById("message").value
+            };
 
-        travel_date: document.getElementById("date").value,
-        persons: document.getElementById("persons").value,
-        message: document.getElementById("message").value
-    };
+            const res = await fetch("http://localhost:3000/api/book", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
 
-    const res = await fetch("http://localhost:3000/api/book", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify(data)
-    });
+            const result = await res.json();
 
-    const result = await res.json();
-
-    document.getElementById("msg").innerText = result.message;
-}
-</script>
+            document.getElementById("msg").innerText = result.message;
+        }
+    </script>
 
 </body>
+
 </html>

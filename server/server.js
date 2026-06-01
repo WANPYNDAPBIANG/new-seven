@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
@@ -9,20 +10,30 @@ const PORT = 5000;
 // middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public"));
+
+// serve frontend
+app.use(express.static(path.join(__dirname, "../public")));
+
+// OPTIONAL: if css/js/images are outside public
+app.use(express.static(path.join(__dirname, "../")));
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
 
 /* =========================
    MYSQL CONNECTION (SKYSQL)
 ========================= */
 const db = mysql.createConnection({
-    host: "serverless-europe-west9.sysp0000.db2.skysql.com",
-    user: "Wan",
-    password: "W@npynd@p2001",
+    host: "localhost",
+    user: "root",
+    password: "Root@123",
     database: "seven_sisters_travel",
-    port: 4070,
-    ssl: {
-        rejectUnauthorized: false
-    }
+    port: 3306
 });
 
 /* =========================
@@ -173,7 +184,3 @@ function checkAdmin(req, res, next) {
 
     next();
 }
-
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
