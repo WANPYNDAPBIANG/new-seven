@@ -1,0 +1,237 @@
+/* ==========================
+   GOOGLE FONT
+========================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* ==========================
+   RESET
+========================== */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ==========================
+   ROOT COLORS
+========================== */
+:root{
+    --bg: #f8fafc;
+    --primary: #2f6f4f;
+    --primary-dark: #23543c;
+    --accent: #d4a017;
+    --text: #1f2937;
+    --card: #ffffff;
+    --border: #e5e7eb;
+}
+
+/* ==========================
+   BODY
+========================== */
+body{
+    font-family: "Poppins", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* ==========================
+   NAVBAR
+========================== */
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px 64px;
+
+    background: white;
+    border-bottom: 1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+logo{
+    display: inline-block;
+
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+nav h2{
+    flex: 1;
+    margin-left: 16px;
+    color: var(--primary);
+}
+
+nav ul{
+    display: flex;
+    list-style: none;
+    gap: 24px;
+}
+
+nav li{
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+nav li:hover{
+    color: var(--primary);
+}
+
+/* ==========================
+   HERO SECTION
+========================== */
+section:first-of-type{
+    text-align: center;
+
+    padding: 80px 24px;
+
+    background:
+    linear-gradient(
+        rgba(47,111,79,0.75),
+        rgba(47,111,79,0.75)
+    ),
+    url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee");
+
+    background-size: cover;
+    background-position: center;
+
+    color: white;
+}
+
+section:first-of-type h1{
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+section:first-of-type p{
+    max-width: 700px;
+    margin: 0 auto 32px;
+}
+
+button{
+    border: none;
+    outline: none;
+
+    padding: 14px 32px;
+
+    background: var(--accent);
+    color: white;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover{
+    transform: translateY(-2px);
+}
+
+/* ==========================
+   STATES SECTION
+========================== */
+section:nth-of-type(2){
+    padding: 64px;
+}
+
+section:nth-of-type(2) h2{
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--primary);
+}
+
+/* Convert state divs into cards */
+section:nth-of-type(2){
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 24px;
+}
+
+section:nth-of-type(2) h2{
+    grid-column: 1/-1;
+}
+
+section:nth-of-type(2) div{
+    background: var(--card);
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    padding: 32px;
+
+    text-align: center;
+
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+section:nth-of-type(2) div:hover{
+    transform: translateY(-5px);
+    border-color: var(--primary);
+}
+
+/* ==========================
+   FOOTER
+========================== */
+footer{
+    background: var(--primary);
+    color: white;
+
+    text-align: center;
+
+    padding: 32px;
+}
+
+footer p{
+    margin-bottom: 8px;
+}
+
+/* ==========================
+   MOBILE
+========================== */
+@media (max-width:768px){
+
+    nav{
+        flex-direction: column;
+        gap: 16px;
+        padding: 24px;
+    }
+
+    nav h2{
+        margin: 0;
+    }
+
+    nav ul{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    section:first-of-type h1{
+        font-size: 32px;
+    }
+
+    section:nth-of-type(2){
+        padding: 32px 24px;
+    }
+}

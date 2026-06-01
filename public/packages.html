@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Packages - Seven Sisters Travel</title>
+
+    <link rel="stylesheet" href="../css/pakages.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+<nav>
+        <logo><img src="../images/logo.png" alt="Seven Sisters Travel Logo"></logo>
+        <h2>Seven Sisters Travel</h2>
+
+        <ul>
+            <li><a href="../public/index.html">Home</a></li>
+            <li><a href="../public/packages.html">Packages</a></li>
+            <li><a href="../public/states.html">States</a></li>
+            <li><a href="../public/about.html">About</a></li>
+            <li><a href="../public/contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <h1>Tour Packages</h1>
+        <p>Find your next adventure across Northeast India</p>
+    </header>
+
+    <!-- FILTER (UI ONLY) -->
+    <section class="filter">
+        <select>
+            <option>All States</option>
+            <option>Meghalaya</option>
+            <option>Assam</option>
+            <option>Nagaland</option>
+            <option>Arunachal Pradesh</option>
+            <option>Sikkim</option>
+        </select>
+
+        <select>
+            <option>Budget</option>
+            <option>Under ₹10,000</option>
+            <option>₹10,000 - ₹15,000</option>
+            <option>₹15,000+</option>
+        </select>
+
+        <button>Search</button>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="packages">
+
+        <!-- CARD 1 -->
+        <div class="card">
+            <h3>Meghalaya Explorer</h3>
+            <p>Shillong • Cherrapunji • Dawki</p>
+            <p>4 Days / 3 Nights</p>
+            <p class="price">₹8,999</p>
+            <p>⭐ 4.8</p>
+            <button onclick="openBooking('Meghalaya Explorer', 'Shillong')">
+    Book Now
+</button>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="card">
+            <h3>Assam Wildlife Tour</h3>
+            <p>Kaziranga • Guwahati</p>
+            <p>5 Days / 4 Nights</p>
+            <p class="price">₹9,499</p>
+            <p>⭐ 4.7</p>
+            <button onclick="openBooking('Assam Wildlife Tour', 'Kaziranga')">
+    Book Now
+</button>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="card">
+            <h3>Nagaland Festival Tour</h3>
+            <p>Kohima • Khonoma</p>
+            <p>4 Days / 3 Nights</p>
+            <p class="price">₹9,999</p>
+            <p>⭐ 4.9</p>
+            <button onclick="openBooking('Nagaland Festival Tour', 'Kohima')">
+    Book Now
+</button>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="card">
+            <h3>Arunachal Adventure</h3>
+            <p>Tawang • Sela Pass</p>
+            <p>6 Days / 5 Nights</p>
+            <p class="price">₹12,999</p>
+            <p>⭐ 4.9</p>
+            <button onclick="openBooking('Arunachal Adventure', 'Tawang')">
+    Book Now
+</button>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="card">
+            <h3>Sikkim Himalayan Escape</h3>
+            <p>Gangtok • Nathula</p>
+            <p>5 Days / 4 Nights</p>
+            <p class="price">₹11,499</p>
+            <p>⭐ 4.8</p>
+            <button onclick="openBooking('Sikkim Himalayan Escape', 'Gangtok')">
+    Book Now
+</button>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="card">
+            <h3>Mizoram Nature Retreat</h3>
+            <p>Aizawl • Reiek</p>
+            <p>4 Days / 3 Nights</p>
+            <p class="price">₹8,499</p>
+            <p>⭐ 4.6</p>
+            <button onclick="openBooking('Mizoram Nature Retreat', 'Aizawl')">
+    Book Now
+</button>
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>Seven Sisters Travel Agency</p>
+        <p>&copy; 2026 All Rights Reserved</p>
+    </footer>
+<script>
+function openBooking(packageName, destination){
+
+    // check login
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if(!user){
+        alert("Please login first to book a package");
+        window.location.href = "/login.html";
+        return;
+    }
+
+    // store selected package
+    localStorage.setItem("selectedPackage", JSON.stringify({
+        packageName,
+        destination
+    }));
+
+    // go to booking page
+    window.location.href = "/booking.html";
+}
+</script>
+
+</body>
+</html>

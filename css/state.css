@@ -1,0 +1,318 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+:root{
+
+    /* Colors */
+    --bg:#f8fafc;
+    --surface:#ffffff;
+
+    --primary:#2f6f4f;
+    --primary-dark:#23543c;
+
+    --accent:#d4a017;
+
+    --text:#1f2937;
+    --text-light:#6b7280;
+
+    --border:#e5e7eb;
+
+    /* Shadows */
+    --shadow-sm:0 2px 8px rgba(0,0,0,.05);
+    --shadow-md:0 8px 24px rgba(0,0,0,.08);
+
+    /* Radius */
+    --radius:16px;
+
+    /* Width */
+    --container:1200px;
+}
+
+/* =========================
+   BODY
+========================= */
+
+body{
+    font-family:"Poppins",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+nav{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:16px 64px;
+
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(8px);
+
+    border-bottom:1px solid var(--border);
+}
+
+nav h2{
+    color:var(--primary);
+    font-weight:700;
+}
+
+nav ul{
+    display:flex;
+    list-style:none;
+    gap:32px;
+}
+
+nav a{
+    text-decoration:none;
+    color:var(--text);
+    font-weight:500;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:var(--primary);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:60vh;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    padding:80px 24px;
+
+    background:
+    linear-gradient(
+        rgba(47,111,79,.78),
+        rgba(35,84,60,.82)
+    ),
+    url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee");
+
+    background-size:cover;
+    background-position:center;
+
+    color:white;
+}
+
+.hero h1{
+    font-size:64px;
+    font-weight:700;
+    margin-bottom:16px;
+}
+
+.hero p{
+    max-width:700px;
+    font-size:18px;
+    opacity:.95;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+section{
+    max-width:var(--container);
+    margin:auto;
+    padding:80px 24px;
+}
+
+section h2{
+    font-size:36px;
+    color:var(--primary);
+    margin-bottom:24px;
+}
+
+section p{
+    color:var(--text-light);
+}
+
+/* =========================
+   GRID
+========================= */
+
+.card-container{
+    margin-top:32px;
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:24px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card{
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius);
+
+    padding:24px;
+
+    box-shadow:var(--shadow-sm);
+
+    transition:
+    transform .3s ease,
+    box-shadow .3s ease;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:var(--shadow-md);
+}
+
+.card h3{
+    color:var(--primary);
+    margin-bottom:12px;
+    font-size:20px;
+}
+
+.card p{
+    color:var(--text-light);
+}
+
+/* =========================
+   PACKAGE BOX
+========================= */
+
+.package-box{
+    background:white;
+
+    border-radius:20px;
+
+    padding:40px;
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow-md);
+
+    max-width:700px;
+}
+
+.package-box p{
+    margin-bottom:16px;
+    color:var(--text);
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+button{
+    border:none;
+    cursor:pointer;
+
+    background:var(--accent);
+    color:white;
+
+    padding:14px 32px;
+
+    border-radius:12px;
+
+    font-family:inherit;
+    font-weight:600;
+    font-size:16px;
+
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+    filter:brightness(1.05);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:80px;
+
+    background:var(--primary);
+
+    color:white;
+
+    text-align:center;
+
+    padding:48px 24px;
+}
+
+footer p{
+    opacity:.9;
+    margin-bottom:8px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+    nav{
+        flex-direction:column;
+        gap:16px;
+        padding:24px;
+    }
+
+    nav ul{
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:16px;
+    }
+
+    .hero{
+        min-height:50vh;
+    }
+
+    .hero h1{
+        font-size:40px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    section{
+        padding:56px 20px;
+    }
+
+    section h2{
+        font-size:28px;
+    }
+
+    .package-box{
+        padding:24px;
+    }
+}
