@@ -1,0 +1,105 @@
+const contact = document.getElementById('app').innerHTML = `
+
+<div class="page-hero">
+  <div class="container" style="text-align:center">
+    <p class="section-label" style="color:rgba(255,255,255,.7)">Get in Touch</p>
+    <h1 style="color:#fff">Contact Us</h1>
+    <p style="color:rgba(255,255,255,.82);max-width:480px;margin:.75rem auto 0">Have questions about a package or need a custom itinerary? We'd love to help.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:3rem;align-items:start">
+      <div>
+        <h3 style="margin-bottom:1.5rem">Reach Out</h3>
+        ${[
+    { icon: "📧", label: "Email", val: "sevensisterstravel01@gmail.com" },
+    { icon: "📞", label: "Phone", val: "+91 6009773776" },
+    { icon: "📍", label: "Office", val: "Shillong, Meghalaya, India" },
+    { icon: "🕐", label: "Hours", val: "Mon–Sat, 9 AM – 6 PM IST" },
+  ].map(c => `
+          <div 
+            style="
+              display:flex;gap:1rem;
+              margin-bottom:1.25rem;
+              align-items:flex-start">
+
+
+            <div 
+              style="
+                width:40px;
+                height:40px;
+                border-radius:var(--radius-sm);
+                background:var(--primary-light);
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:1.2rem;
+                flex-shrink:0">
+                ${c.icon}
+            </div>
+
+            <div>
+              <div 
+                style="
+                  font-size:.78rem;
+                  font-weight:700;
+                  text-transform:uppercase;
+                  letter-spacing:.06em;
+                  color:var(--text-muted)">
+                  ${c.label}
+              </div>
+              
+              <div 
+                style="
+                  font-weight:600;
+                  margin-top:.2rem">
+                  ${c.val}</div>
+              </div>
+
+            </div>`).join("")}
+          </div>
+
+          <div class="card card-body">
+            <h3 style="margin-bottom:1.5rem">
+              Send a Message
+            </h3>
+
+            <div id="msg"></div>
+              <form id="contactForm">
+
+                <div class="form-row">
+
+                  <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" class="form-control" name="name" placeholder="Your name" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" class="form-control" name="email" placeholder="you@email.com" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Subject *</label>
+                  <input type="text" class="form-control" name="subject" placeholder="What's this about?" required>
+                </div>
+
+                <div class="form-group">
+                  <label>Message *</label>
+                  <textarea class="form-control" name="message" rows="5" placeholder="Tell us what you're looking for..." required>
+                  </textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full btn-lg" id="sendBtn">
+                  Send Message
+                </button>
+
+              </form>
+      </div>
+    </div>
+  </div>
+</section>
+`;

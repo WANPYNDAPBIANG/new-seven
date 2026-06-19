@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore States — Seven Sisters Travel</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/explore.css">
+</head>
+
+<body>
+  <nav id="navbar"></nav>
+  <main id="app"></main>
+  <footer id="footer"></footer>
+
+  <script src="js/navbar.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/api.js"></script>
+
+  <script>
+    const app = document.getElementById("app");
+    app.innerHTML = `
+<div class="page-hero">
+  <div class="container">
+    <p class="section-label">Northeast India</p>
+    <h1>Explore the Eight States</h1>
+    <p>Eight extraordinary destinations. Sixteen major tribes. Thousands of years of history. One unforgettable region.</p>
+  </div>
+</div>
+<section class="section">
+  <div class="container">
+    <div id="statesGrid">${spinner()}</div>
+  </div>
+</section>`;
+
+    async function loadStates() {
+      const states = await statesApi.list();
+      document.getElementById("statesGrid").innerHTML = `
+    <div class="grid-3">
+      ${states.map(s => `
+        <a href="/state.html?slug=${s.slug}" class="state-link">
+          <div class="state-card card">
+            <img src="${s.image_url || ''}" alt="${s.name}" class="state-card-img" onerror="this.style.display='none'">
+            <div class="state-card-overlay">
+              <h3>${s.name}</h3>
+              <p>📍 ${s.capital}</p>
+            </div>
+            <div class="card-body">
+              <p>${s.description || ''}</p>
+              <div class="state-card-meta">
+                <span class="badge badge-primary">⏰ ${s.bestTime || 'Oct–Apr'}</span>
+              </div>
+            </div>
+          </div>
+        </a>`).join("")}
+    </div>`;
+    }
+
+    loadStates().catch(console.error);
+
+  </script>
+</body>
+
+</html>

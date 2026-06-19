@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour Packages — Seven Sisters Travel</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="explore.css"> <!-- Updated stylesheet link -->
+</head>
+
+<body>
+  <nav id="navbar"></nav>
+  <main id="app"></main>
+  <footer id="footer"></footer>
+
+  <script src="js/navbar.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/footer.js"></script>
+
+  <script>
+    function spinner() {
+      return `<div class="page-loader"><div class="spinner"></div></div>`;
+    }
+
+    const app = document.getElementById("app");
+    app.innerHTML = `
+    <div class="page-hero">
+      <div class="container">
+        <p class="section-label" style="color:rgba(255,255,255,.7)">Curated Journeys</p>
+        <h1>Tour Packages</h1>
+        <p>Expertly crafted itineraries across all eight Northeast Indian states.</p>
+      </div>
+    </div>
+    <section class="section-sm">
+      <div class="container">
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:2rem">
+          <select class="form-control" id="stateFilter" style="max-width:200px">
+            <option value="">All States</option>
+          </select>
+          <select class="form-control" id="sortFilter" style="max-width:200px">
+            <option value="">Default</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+          </select>
+          <span id="pkgCount" class="text-muted" style="margin-left:auto;font-size:.88rem"></span>
+        </div>
+        <div id="packagesGrid">${spinner()}</div>
+      </div>
+    </section>`;
+  </script>
+
+  <script>
+    let allPackages = [];
+
+    // --- Added missing helper functions to prevent runtime crashes ---
+    function renderStars(rating) {
+      const numericRating = parseFloat(rating) || 0;
+      let starsHtml = '';
+      for (let i = 1; i <= 5; i++) {
+        starsHtml += i <= Math.round(numericRating) ? '★' : '☆';
+      }
+      return `<span style="color: #ffc107;">${starsHtml}</span> ${numericRating.toFixed(1)}`;
+    }
+
+    function formatPrice(price) {
+      const numericPrice = parseFloat(price) || 0;
+      return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
+      }).format(numericPrice);
+    }
+
+    async function loadPackages() {
+      // Fetches packages and states concurrently 
+      const [pkgs, states] = await Promise.all([packagesApi.list(), statesApi.list()]);
+      allPackages = pkgs;
+
+      const sf = document.getElementById("stateFilter");
+      states.forEach(s => {
+        const opt = document.createElement("option");
+        opt.value = s.name;
+        opt.textContent = s.name;
+        sf.appendChild(opt);
+      });
+
+      // Secure event listener assignment after elements exist safely in the DOM
+      document.getElementById("stateFilter").addEventListener("change", renderPackages);
+      document.getElementById("sortFilter").addEventListener("change", renderPackages);
+
+      renderPackages();
+    }
+
+    function renderPackages() {
+      const stateFilter = document.getElementById("stateFilter").value;
+      const sort = document.getElementById("sortFilter").value;
+
+      let pkgs = allPackages.filter(p => !stateFilter || p.state === stateFilter);
+
+      if (sort === "price_asc") pkgs.sort((a, b) => a.price - b.price);
+      else if (sort === "price_desc") pkgs.sort((a, b) => b.price - a.price);
+      else if (sort === "rating") pkgs.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+
+      document.getElementById("pkgCount").textContent = `${pkgs.length} package${pkgs.length !== 1 ? "s" : ""}`;
+
+      if (!pkgs.length) {
+        document.getElementById("packagesGrid").innerHTML = `
+          <div class="empty-state" style="text-align:center;padding:3rem 0;">
+            <div class="empty-icon" style="font-size:3rem;margin-bottom:1rem;">🏞</div>
+            <h3>No packages found</h3>
+            <p>Try a different filter.</p>
+          </div>`;
+        return;
+      }
+
+      document.getElementById("packagesGrid").innerHTML = `
+    <div class="grid-3">
+      ${pkgs.map(p => `
+        <div class="card package-card">
+          <div class="card-img-wrap" style="position:relative; overflow:hidden;">
+            <img class="card-img" src="${p.image_url || ''}" alt="${p.title}" style="height:200px; width:100%; object-fit:cover;" onerror="this.style.background='var(--border)';this.src=''">
+            ${p.featured ? '<span class="badge-featured" style="position:absolute; top:10px; left:10px; background:#e74c3c; color:white; padding:2px 8px; font-size:0.75rem; border-radius:3px;">Featured</span>' : ''}
+            <span class="badge-state" style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.7); color:white; padding:2px 8px; font-size:0.75rem; border-radius:3px;">${p.state}</span>
+          </div>
+          <div class="card-body" style="padding:1.25rem;">
+            <h3>${p.title}</h3>
+            <div class="package-meta" style="display:flex; gap:0.75rem; font-size:0.85rem; color:#666; margin: 0.5rem 0;">
+              <span>📍 ${p.location}</span>
+              <span>🕐 ${p.duration} days</span>
+              <span>👥 Max ${p.max_persons}</span>
+            </div>
+            <div class="stars">${renderStars(p.rating || 4)} <small class="text-muted">(${p.review_count || 0})</small></div>
+            <p style="font-size:.85rem;color:#666;margin-top:.5rem;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden">${p.description || ''}</p>
+            <div class="package-price" style="display:flex; justify-content:space-between; align-items:center; margin-top:1rem; border-top:1px solid #eee; padding-top:0.75rem;">
+              <div>
+                <div class="price-label" style="font-size:0.75rem; color:#888; text-transform:uppercase;">Starting from</div>
+                <div class="price-amount" style="font-size:1.25rem; font-weight:bold; color:#2c3e50;">${formatPrice(p.price)}</div>
+              </div>
+              <a href="/package.html?id=${p.id}" class="btn btn-primary btn-sm">View</a>
+            </div>
+          </div>
+        </div>`).join("")}
+    </div>`;
+    }
+
+    loadPackages().catch(console.error);
+  </script>
+</body>
+
+</html>

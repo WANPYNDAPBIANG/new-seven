@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>State — Seven Sisters Travel</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<main id="app"></main>
+<script src="js/components.js"></script>
+<script src="js/navbar.js"></script>
+<script src="js/footer.js"></script>
+
+<script>
+import { renderNavbar, renderFooter, formatPrice, renderStars, spinner } from "/js/components.js";
+import { statesApi, packagesApi } from "/js/api.js";
+
+renderNavbar();
+const app = document.getElementById("app");
+const slug = new URLSearchParams(window.location.search).get("slug");
+
+if (!slug) { app.innerHTML = `<div class="container section"><div class="empty-state"><div class="empty-icon">🗺️</div><h3>State not found</h3><a href="/explore.html" class="btn btn-primary mt-2">Explore States</a></div></div>`; renderFooter(); }
+else { load(); }
+
+async function load() {
+  app.innerHTML = `
+  <div class="page-loader">
+    <div class="spinner"></div>
+    </div>
+    `;
+  const state = await statesApi.get(slug);
+  document.title = `${state.name} — Seven Sisters Travel`;
+
+  const pkgRes = await packagesApi.list({ state: state.name }).catch(() => []);
+  const packages = Array.isArray(pkgRes) ? pkgRes : pkgRes.packages || [];
+
+  app.innerHTML = `
+    <div style="height:420px;background:url('${state.imageUrl || ''}') center/cover no-repeat var(--border);position:relative">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75),transparent 50%)"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:2.5rem">
+        <div class="container">
+          <div class="breadcrumb" style="color:rgba(255,255,255,.7)"><a href="/explore.html" style="color:rgba(255,255,255,.8)">Explore</a> <span>›</span> <span>${state.name}</span></div>
+          <h1 style="color:#fff;font-size:2.6rem">${state.name}</h1>
+          <p style="color:rgba(255,255,255,.82)">📍 Capital: ${state.capital}</p>
+        </div>
+      </div>
+    </div>
+
+    <section class="section-sm">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:2.5rem;align-items:start">
+          <div>
+            <h2 style="margin-bottom:1rem">About ${state.name}</h2>
+            <p style="line-height:1.8;color:var(--text-muted)">${state.description || ''}</p>
+
+            ${state.attractions?.length ? `
+            <h3 style="margin:2rem 0 1rem">Top Attractions</h3>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem">
+              ${state.attractions.map(a => `
+                <div style="background:var(--primary-light);border-radius:var(--radius-sm);padding:1rem">
+                  <strong>${a.name || a}</strong>
+                  ${a.description ? `<p style="font-size:.82rem;margin-top:.25rem">${a.description}</p>` : ''}
+                </div>`).join("")}
+            </div>` : ''}
+
+            ${packages.length ? `
+            <h3 style="margin:2.5rem 0 1rem">Packages in ${state.name}</h3>
+            <div class="grid-2">
+              ${packages.map(p => `
+                <div class="card package-card">
+                  <img class="card-img" src="${p.imageUrl || ''}" alt="${p.title}" onerror="this.style.display='none'">
+                  <div class="card-body">
+                    <h3>${p.title}</h3>
+                    <div class="package-meta"><span>🕐 ${p.duration} days</span></div>
+                    <div class="package-price">
+                      <div class="price-amount">${formatPrice(p.price)}</div>
+                      <a href="/package.html?id=${p.id}" class="btn btn-primary btn-sm">View</a>
+                    </div>
+                  </div>
+                </div>`).join("")}
+            </div>` : ''}
+          </div>
+
+          <div style="position:sticky;top:calc(var(--navbar-h) + 1rem)">
+            <div class="card card-body" style="margin-bottom:1rem">
+              <h4 style="margin-bottom:.75rem">Quick Facts</h4>
+              <div style="display:flex;flex-direction:column;gap:.6rem;font-size:.88rem">
+                <div style="display:flex;justify-content:space-between"><span class="text-muted">Capital</span><strong>${state.capital}</strong></div>
+                <div style="display:flex;justify-content:space-between"><span class="text-muted">Best Time</span><strong>${state.bestTime || 'Oct–Apr'}</strong></div>
+                <div style="display:flex;justify-content:space-between"><span class="text-muted">Language</span><strong>${state.language || 'Local dialects'}</strong></div>
+                <div style="display:flex;justify-content:space-between"><span class="text-muted">Currency</span><strong>INR (₹)</strong></div>
+              </div>
+            </div>
+            <a href="/packages.html?state=${encodeURIComponent(state.name)}" class="btn btn-primary btn-full">View All ${state.name} Packages</a>
+          </div>
+        </div>
+      </div>
+    </section>`;
+}
+
+renderFooter();
+</script>
+</body>
+</html>

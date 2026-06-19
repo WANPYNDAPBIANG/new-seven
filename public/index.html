@@ -2,59 +2,165 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seven Sisters Travel Agency</title>
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seven Sisters Travel — Northeast India's Premier Travel Company</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
+  <nav id="navbar"></nav>
+  <main id="app"></main>
+  <footer id="footer"></footer>
 
-    <nav>
-        <logo><img src="/images/logo.png" alt="Seven Sisters Travel Logo"></logo>
-        <h2>Seven Sisters Travel</h2>
+  <script src="js/components.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/footer.js"></script>
 
-        <ul>
-            <li><i class="fa-solid fa-house"></i><a href="../public/index.html">Home</a></li>
-            <li><i class="fa-solid fa-suitcase-rolling"></i><a href="../public/packages.html">Packages</a></li>
-            <li><i class="fa-solid fa-map-location-dot"></i><a href="../public/states.html">States</a></li>
-            <li><i class="fa-solid fa-circle-info"></i><a href="../public/about.html">About</a></li>
-            <li><i class="fa-solid fa-phone"></i><a href="../public/contact.html">Contact</a></li>
+  <script>
 
+    const app = document.getElementById("app");
+    app.innerHTML = `
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <span class="hero-badge">Northeast India's Premier Travel Company</span>
+      <h1>Discover the <span>Seven Sisters</span></h1>
+      <p>Ancient tribal cultures, misty mountains, living root bridges — Northeast India's secrets await those who dare to wander off the map.</p>
+      <div class="hero-actions">
+        <a href="packages.html" class="btn btn-accent btn-lg">Explore Packages</a>
+        <a href="explore.html" class="btn btn-outline-white btn-lg">Discover States</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-        </ul>
-    </nav>
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">States Covered</div></div>
+      <div class="stat-item"><div class="stat-num">50+</div><div class="stat-label">Tour Packages</div></div>
+      <div class="stat-item"><div class="stat-num">5000+</div><div class="stat-label">Happy Travelers</div></div>
+      <div class="stat-item"><div class="stat-num">4.8</div><div class="stat-label">Average Rating</div></div>
+    </div>
+  </div>
+</div>
 
-    <section>
-        <h1>Explore Northeast India</h1>
-        <p>Discover beautiful destinations across the Seven Sisters.</p>
-        <button onclick="window.location.href='packages.html'">Explore Packages</button>
-    </section>
+<section class="section" id="featuredSection">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">Featured Journeys</p>
+      <h2 class="section-title">Top Packages</h2>
+      <p class="section-subtitle">Handpicked experiences across the eight northeastern states of India.</p>
+    </div>
+    <div id="featuredPackages">${spinner()}</div>
+    <div class="text-center mt-3">
+      <a href="packages.html" class="btn btn-outline">View All Packages</a>
+    </div>
+  </div>
+</section>
 
-    <section>
-        <h2>Featured States</h2>
+<section class="section" style="background:var(--card)">
+  <div class="container">
+    <div class="section-header centered">
+      <p class="section-label">Northeast India</p>
+      <h2 class="section-title">Explore the Eight States</h2>
+      <p class="section-subtitle">Each state is a world unto itself — unique culture, cuisine, landscape, and language.</p>
+    </div>
+    <div id="statesGrid">${spinner()}</div>
+    <div class="text-center mt-3">
+      <a href="explore.html" class="btn btn-outline">Explore All States</a>
+    </div>
+  </div>
+</section>
 
-        <div onclick="window.location.href='../pages/meghalaya.html'">Meghalaya</div>
-        <div onclick="window.location.href='../pages/assam.html'">Assam</div>
-        <div onclick="window.location.href='../pages/nagaland.html'">Nagaland</div>
-        <div onclick="window.location.href='../pages/tripura.html'">Tripura</div>
-        <div onclick="window.location.href='../pages/manipur.html'">Manipur</div>
-        <div onclick="window.location.href='../pages/mizoram.html'">Mizoram</div>
-        <div onclick="window.location.href='../pages/arunachal-pradesh.html'">Arunachal Pradesh</div>
-        <div onclick="window.location.href='../pages/sikkim.html'">Sikkim</div>
-    </section>
+<section class="section">
+  <div class="container">
+    <div class="section-header centered">
+      <p class="section-label">Testimonials</p>
+      <h2 class="section-title">What Travelers Say</h2>
+    </div>
+    <div id="reviews">${spinner()}</div>
+  </div>
+</section>
 
-    <footer>
-        <p>about</p>
-        <p>contact</p>
-        <p>&copy; 2026 Seven Sisters Travel Agency</p>
-    </footer>
+<section class="section" style="background:var(--primary);color:#fff;text-align:center">
+  <div class="container">
+    <h2 style="color:#fff;margin-bottom:.75rem">Ready to Explore the Northeast?</h2>
+    <p style="color:rgba(255,255,255,.82);max-width:480px;margin:0 auto 2rem">Book your dream trip today and experience the magic of India's best-kept secret.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <a href="packages.html" class="btn btn-accent btn-lg">Browse Packages</a>
+      <a href="contact.html" class="btn btn-outline-white btn-lg">Contact Us</a>
+    </div>
+  </div>
+</section>
+`;
 
+    async function loadFeatured() {
+      const pkgs = await packagesApi.featured();
+      document.getElementById("featuredPackages").innerHTML = `
+    <div class="grid-3">
+      ${pkgs.map(p => `
+        <div class="card package-card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="${p.image_url || ''}" alt="${p.title}" onerror="this.style.background='var(--border)';this.src=''">
+            ${p.featured ? '<span class="badge-featured">Featured</span>' : ''}
+            <span class="badge-state">${p.state}</span>
+          </div>
+          <div class="card-body">
+            <h3>${p.title}</h3>
+            <div class="package-meta">
+              <span>📍 ${p.location}</span>
+              <span>🕐 ${p.duration} days</span>
+              <span>👥 Max ${p.max_persons}</span>
+            </div>
+            <div class="stars">${renderStars(p.rating || 4)} <small class="text-muted">(${p.review_count || 0})</small></div>
+            <div class="package-price">
+              <div><div class="price-label">Starting from</div><div class="price-amount">${formatPrice(p.price)}</div></div>
+              <a href="/package.html?id=${p.id}" class="btn btn-primary btn-sm">View Details</a>
+            </div>
+          </div>
+        </div>`).join("")}
+    </div>`;
+    }
 
-    <script src="/js/main.js"></script>
+    async function loadStates() {
+      const states = await statesApi.list();
+      document.getElementById("statesGrid").innerHTML = `
+    <div class="grid-4">
+      ${states.slice(0, 8).map(s => `
+        <a href="/state.html?slug=${s.slug}" style="text-decoration:none">
+          <div class="state-card">
+            <img src="${s.imageUrl || ''}" alt="${s.name}" onerror="this.style.display='none'" style="height:200px;width:100%;object-fit:cover">
+            <div class="state-card-overlay">
+              <h3>${s.name}</h3>
+              <p>📍 ${s.capital}</p>
+            </div>
+          </div>
+        </a>`).join("")}
+    </div>`;
+    }
+
+    async function loadReviews() {
+      const reviews = await reviewsApi.list();
+      if (!reviews.length) { document.getElementById("reviews").innerHTML = ""; return; }
+      document.getElementById("reviews").innerHTML = `
+    <div class="grid-3">
+      ${reviews.slice(0, 3).map(r => `
+        <div class="review-card">
+          <div class="reviewer">
+            <div class="avatar">${r.reviewer_name[0]}</div>
+            <div class="reviewer-info"><strong>${r.reviewer_name}</strong><span>${renderStars(r.rating)}</span></div>
+          </div>
+          <p style="font-size:.9rem;color:var(--text-muted)">"${r.comment}"</p>
+        </div>`).join("")}
+    </div>`;
+    }
+
+    Promise.all([loadFeatured(), loadStates(), loadReviews()]).catch(console.error);
+
+  </script>
 </body>
 
 </html>
